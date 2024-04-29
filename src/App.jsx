@@ -12,6 +12,7 @@ import LibrarianRegister from  "./pages/LibrarianRegister";
 import AddBook from "./pages/AddBook";
 import AdminLogin from "./pages/AdminLogin";
 import AdminRegister from "./pages/AdminRegister";
+import AddStudentProfile from "./pages/AddStudentProfile";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/lregister" element={<LibrarianRegister/>}></Route>
           <Route path="/aregister" element={<AdminRegister/>}></Route>
           <Route path="/alogin" element={<AdminLogin />}></Route>
+          <Route path="/add-student-profile" element={<AddStudentProfile />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/browse" element={<Browse />}></Route>
           <Route path="/book/:isbn" element={<Book />}></Route>
