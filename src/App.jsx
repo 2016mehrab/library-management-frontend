@@ -6,21 +6,27 @@ import Book from "./pages/Book";
 import RequestRecords from "./pages/RequestRecords";
 import BorrowRecords from "./pages/BorrowRecords";
 import Nonexistent from "./pages/Nonexistent";
-import Navbar from "./pages/Navbar";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Menu from "./pages/Menu";
+import LibrarianLogin from "./pages/LibrarianLogin";
+import LibrarianRegister from  "./pages/LibrarianRegister";
+import AddBook from "./pages/AddBook";
+import AdminLogin from "./pages/AdminLogin";
+import AdminRegister from "./pages/AdminRegister";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar />
+        <Menu />
         <Routes>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/register" element={<Register />}></Route>
+          <Route path="/llogin" element={<LibrarianLogin />}></Route>
+          <Route path="/lregister" element={<LibrarianRegister/>}></Route>
+          <Route path="/aregister" element={<AdminRegister/>}></Route>
+          <Route path="/alogin" element={<AdminLogin />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/browse" element={<Browse />}></Route>
-          <Route path="/book/:id" element={<Book />}></Route>
+          <Route path="/book/:isbn" element={<Book />}></Route>
+          <Route path="/addbook" element={<AddBook />}></Route>
           <Route path="/bookrequests" element={<RequestRecords />}></Route>
           <Route path="/borrowrecords" element={<BorrowRecords />}></Route>
           <Route path="*" element={<Nonexistent />}></Route>
