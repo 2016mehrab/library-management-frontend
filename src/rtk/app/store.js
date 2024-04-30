@@ -3,6 +3,7 @@ import { default as librariansReducer } from "../features/librarian/librariansSl
 import authReducer from "../features/auth/authSlice";
 import addBookReducer from "../features/books/addBooksSlice";
 import addBookRequestReducer from "../features/bookrequests/bookRequestSlice";
+import fetchBookRequestReducer  from "../features/bookrequests/fetchBookRequestSlice";
 import addStudentProfileReducer from "../features/profiles/StudentProfile";
 import addLibrarianProfileReducer from "../features/profiles/LibrarianProfile";
 import { configureStore } from "@reduxjs/toolkit";
@@ -16,5 +17,6 @@ export const store = configureStore({
     studentProfile: addStudentProfileReducer,
     librarianProfile: addLibrarianProfileReducer,
     addBookRequest: addBookRequestReducer,
+    fetchBookRequest: fetchBookRequestReducer,
   },
 });
