@@ -78,6 +78,14 @@ const Menu = () => {
             >
               Add Student
             </NavLink>
+
+            <NavLink
+              className="nav-link"
+              activeClassName="active"
+              to="/add-librarian-profile"
+            >
+              Add Librarian
+            </NavLink>
             <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
           </Nav>
         </Navbar.Collapse>

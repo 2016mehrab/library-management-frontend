@@ -6,18 +6,6 @@ import { addBook } from "../rtk/features/books/addBooksSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
-const ToastMessage = (
-  <ToastContainer className="p-3" position="bottom-end" style={{ zIndex: 1 }}>
-    <Toast onClose={() => {}} show={true} delay={3000} autohide>
-      <Toast.Header closeButton={false}>
-        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-        <strong className="me-auto">Status</strong>
-        <small>Just now</small>
-      </Toast.Header>
-      <Toast.Body></Toast.Body>
-    </Toast>
-  </ToastContainer>
-);
 const AddBook = () => {
   const dispatch = useDispatch();
 
