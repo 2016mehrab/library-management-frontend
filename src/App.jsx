@@ -16,6 +16,7 @@ import AddStudentProfile from "./pages/AddStudentProfile";
 import AddLibrarianProfile from "./pages/AddLibrarianProfile";
 import StudentRegister from "./pages/StudentRegister";
 import StudentLogin from "./pages/StudentLogin";
+import UpdateRequest from "./pages/UpdateRequest";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/browse" element={<Browse />}></Route>
           <Route path="/book/:isbn" element={<Book />}></Route>
           <Route path="/addbook" element={<AddBook />}></Route>
+          <Route path="/updaterequests" element={<UpdateRequest />}></Route>
           <Route path="/bookrequests" element={<RequestRecords />}></Route>
           <Route path="/borrowrecords" element={<BorrowRecords />}></Route>
           <Route path="*" element={<Nonexistent />}></Route>
