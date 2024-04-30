@@ -15,6 +15,7 @@ import AdminRegister from "./pages/AdminRegister";
 import AddStudentProfile from "./pages/AddStudentProfile";
 import AddLibrarianProfile from "./pages/AddLibrarianProfile";
 import StudentRegister from "./pages/StudentRegister";
+import StudentLogin from "./pages/StudentLogin";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/llogin" element={<LibrarianLogin />}></Route>
           <Route path="/lregister" element={<LibrarianRegister/>}></Route>
           <Route path="/sregister" element={<StudentRegister/>}></Route>
+          <Route path="/slogin" element={<StudentLogin />}></Route>
           <Route path="/aregister" element={<AdminRegister/>}></Route>
           <Route path="/alogin" element={<AdminLogin />}></Route>
           <Route path="/add-student-profile" element={<AddStudentProfile />}></Route>

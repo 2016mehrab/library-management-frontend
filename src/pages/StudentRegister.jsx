@@ -11,6 +11,7 @@ const StudentRegister = () => {
   const dispatch = useDispatch();
   const [showToast, setShowToast] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   const formik = useFormik({
     initialValues: {
       username: "",

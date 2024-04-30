@@ -1,23 +1,50 @@
 import { Helmet } from "react-helmet";
 import { useFormik } from "formik";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Toast, ToastContainer } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import axios from "axios";
+import { LIBRARIAN_AUTH_URL } from "../../constants";
+import { setToken } from "../rtk/features/auth/authSlice";
 
 const LibrarianLogin = () => {
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const [showToast, setShowToast] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
-    onSubmit: (values) => {
-      console.log(values);
+
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const response = await axios.post(LIBRARIAN_AUTH_URL, values);
+
+        if (response.status !== 403) {
+          const token = response.data.token;
+
+          localStorage.setItem("token", token);
+          dispatch(setToken(token));
+          setShowToast(true);
+          resetForm();
+        } else {
+          console.error("Login failed");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+        setShowToast(true);
+        resetForm();
+      }
     },
   });
   return (
     <div>
       <Helmet>
-        <title>Login</title>
+        <title>Librarian Login</title>
       </Helmet>
-      <h1>Login</h1>
+      <h1>Librarian Login</h1>
       <Form onSubmit={formik.handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label htmlFor="username">Username:</Form.Label>
@@ -32,7 +59,7 @@ const LibrarianLogin = () => {
         <Form.Group className="mb-3">
           <Form.Label htmlFor="password">Password:</Form.Label>
           <Form.Control
-            type="text"
+            type="password"
             id="password"
             name="password"
             value={formik.values.password}
@@ -43,6 +70,45 @@ const LibrarianLogin = () => {
           Submit
         </Button>
       </Form>
+      {showToast && isAuthenticated ? (
+        <ToastContainer
+          className="p-3"
+          position="bottom-end"
+          style={{ zIndex: 1 }}
+        >
+          <Toast
+            onClose={() => setShowToast(false)}
+            show={showToast}
+            delay={3000}
+            autohide
+          >
+            <Toast.Header>
+              <strong className="me-auto">Status</strong>
+            </Toast.Header>
+            <Toast.Body>Logged In!</Toast.Body>
+          </Toast>
+        </ToastContainer>
+      ) : null}
+
+      {showToast && !isAuthenticated ? (
+        <ToastContainer
+          className="p-3"
+          position="bottom-end"
+          style={{ zIndex: 1 }}
+        >
+          <Toast
+            onClose={() => setShowToast(false)}
+            show={showToast}
+            delay={3000}
+            autohide
+          >
+            <Toast.Header>
+              <strong className="me-auto">Status</strong>
+            </Toast.Header>
+            <Toast.Body>Failed to login!</Toast.Body>
+          </Toast>
+        </ToastContainer>
+      ) : null}
     </div>
   );
 };

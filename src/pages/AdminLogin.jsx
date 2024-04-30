@@ -1,34 +1,41 @@
 import { Helmet } from "react-helmet";
 import { useFormik } from "formik";
-import { Button, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { setToken} from "../rtk/features/auth/authSlice";
+import { Button, Form, Toast, ToastContainer } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken } from "../rtk/features/auth/authSlice";
 import axios from "axios";
 import { ADMIN_AUTH_URL } from "../../constants";
+import { useState } from "react";
 
 const AdminLogin = () => {
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const [showToast, setShowToast] = useState(false);
 
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
-    onSubmit: async (values) => {
+
+    onSubmit: async (values, { resetForm }) => {
       try {
         const response = await axios.post(ADMIN_AUTH_URL, values);
 
         if (response.status !== 403) {
           const token = response.data.token;
-          console.log(token);
 
           localStorage.setItem("token", token);
           dispatch(setToken(token));
+          setShowToast(true);
+          resetForm();
         } else {
-          console.error("Authentication failed");
+          console.error("Login failed");
         }
       } catch (error) {
         console.error("Error:", error.message);
+        setShowToast(true);
+        resetForm();
       }
     },
   });
@@ -36,9 +43,9 @@ const AdminLogin = () => {
   return (
     <div>
       <Helmet>
-        <title>Login</title>
+        <title>Admin Login</title>
       </Helmet>
-      <h1>Login</h1>
+      <h1>Admin Login</h1>
       <Form onSubmit={formik.handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label htmlFor="username">Username:</Form.Label>
@@ -64,6 +71,45 @@ const AdminLogin = () => {
           Submit
         </Button>
       </Form>
+      {showToast && isAuthenticated ? (
+        <ToastContainer
+          className="p-3"
+          position="bottom-end"
+          style={{ zIndex: 1 }}
+        >
+          <Toast
+            onClose={() => setShowToast(false)}
+            show={showToast}
+            delay={3000}
+            autohide
+          >
+            <Toast.Header>
+              <strong className="me-auto">Status</strong>
+            </Toast.Header>
+            <Toast.Body>Logged In!</Toast.Body>
+          </Toast>
+        </ToastContainer>
+      ) : null}
+
+      {showToast && !isAuthenticated ? (
+        <ToastContainer
+          className="p-3"
+          position="bottom-end"
+          style={{ zIndex: 1 }}
+        >
+          <Toast
+            onClose={() => setShowToast(false)}
+            show={showToast}
+            delay={3000}
+            autohide
+          >
+            <Toast.Header>
+              <strong className="me-auto">Status</strong>
+            </Toast.Header>
+            <Toast.Body>Failed to login!</Toast.Body>
+          </Toast>
+        </ToastContainer>
+      ) : null}
     </div>
   );
 };

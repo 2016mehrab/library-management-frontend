@@ -21,14 +21,21 @@ const Menu = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <NavLink className="nav-link" activeClassName="active" to="/llogin">
-              LLogin
+              Librarian Login
             </NavLink>
             <NavLink
               className="nav-link"
               activeClassName="active"
               to="/lregister"
             >
-              LRegister
+              Librarian Register
+            </NavLink>
+            <NavLink
+              className="nav-link"
+              activeClassName="active"
+              to="/slogin"
+            >
+            Student login
             </NavLink>
             <NavLink
               className="nav-link"
