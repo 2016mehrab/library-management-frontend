@@ -8,12 +8,9 @@ const Menu = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Remove the token key from local storage
     localStorage.removeItem("token");
-    // Dispatch the clearToken action
     dispatch(clearToken());
-    // Redirect to the login page or any other appropriate page after logout
-    navigate("/alogin"); // Replace "/login" with the appropriate logout destination
+    navigate("/slogin"); 
   };
 
   return (
@@ -32,6 +29,13 @@ const Menu = () => {
               to="/lregister"
             >
               LRegister
+            </NavLink>
+            <NavLink
+              className="nav-link"
+              activeClassName="active"
+              to="/sregister"
+            >
+            Student Register
             </NavLink>
             <NavLink
               className="nav-link"

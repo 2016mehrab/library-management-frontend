@@ -1,16 +1,41 @@
 import { Helmet } from "react-helmet";
 import { useFormik } from "formik";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Toast, ToastContainer } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import axios from "axios";
+import { LIBRARIAN_REG_URL } from "../../constants";
+import { setToken } from "../rtk/features/auth/authSlice";
 
 const LibrarianRegister = () => {
+  const dispatch = useDispatch();
+  const [showToast, setShowToast] = useState(false);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
-      librarianId: ""
+      librarianId: "",
     },
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const response = await axios.post(LIBRARIAN_REG_URL, values);
+
+        if (response.status !== 403) {
+          const token = response.data.token;
+
+          localStorage.setItem("token", token);
+          dispatch(setToken(token));
+          setShowToast(true);
+          resetForm();
+        } else {
+          console.error("Registration failed");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+        setShowToast(true);
+        resetForm();
+      }
     },
   });
   return (
@@ -33,7 +58,7 @@ const LibrarianRegister = () => {
         <Form.Group className="mb-3">
           <Form.Label htmlFor="password">Password:</Form.Label>
           <Form.Control
-            type="text"
+            type="password"
             id="password"
             name="password"
             value={formik.values.password}
@@ -54,6 +79,46 @@ const LibrarianRegister = () => {
           Submit
         </Button>
       </Form>
+
+      {showToast && isAuthenticated ? (
+        <ToastContainer
+          className="p-3"
+          position="bottom-end"
+          style={{ zIndex: 1 }}
+        >
+          <Toast
+            onClose={() => setShowToast(false)}
+            show={showToast}
+            delay={3000}
+            autohide
+          >
+            <Toast.Header>
+              <strong className="me-auto">Status</strong>
+            </Toast.Header>
+            <Toast.Body>Registered Successfully!</Toast.Body>
+          </Toast>
+        </ToastContainer>
+      ) : null}
+
+      {showToast && !isAuthenticated ? (
+        <ToastContainer
+          className="p-3"
+          position="bottom-end"
+          style={{ zIndex: 1 }}
+        >
+          <Toast
+            onClose={() => setShowToast(false)}
+            show={showToast}
+            delay={3000}
+            autohide
+          >
+            <Toast.Header>
+              <strong className="me-auto">Status</strong>
+            </Toast.Header>
+            <Toast.Body>Failed to register!</Toast.Body>
+          </Toast>
+        </ToastContainer>
+      ) : null}
     </div>
   );
 };
